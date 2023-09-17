@@ -1,0 +1,12 @@
+.button_list {
+  display: flex;
+  padding: 25px;
+}
+
+.var_button {
+  border: 1px solid black;
+  border-radius: 0.3rem;
+  padding: 0.1rem;
+  background-color: chartreuse;
+  margin: 0.2rem 0.2rem;
+}
