@@ -1,6 +1,7 @@
 .if_then_else_container {
-  display: grid;
-  grid-template-columns: 0.07fr 0.5fr;
+  display: flex;
+  flex-direction: column;
+  float: right;
   gap: 0.5rem;
   .row_name {
     background-color: darkgreen;
