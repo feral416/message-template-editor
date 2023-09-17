@@ -12,7 +12,7 @@ export default function Variables({arrVarNames = [], callbackPlaceVar}) {
           key={nanoid()}
           className={styles.var_button}
           type="button"
-          onClick={() => callbackPlaceVar(name)``}>
+          onClick={() => callbackPlaceVar(name)}>
           {`{${name}}`}
           </button>)
       })}

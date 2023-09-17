@@ -1,16 +1,19 @@
+import styles from '../styles/editor.module.css';
 import React, {useState, useRef, useEffect} from 'react';
 import Variables from "./variable_buttons";
-import If_then_else from './if_then_else';
+import IfThenElse from './if_then_else';
+import useAutosizeTextArea from '../utils';
+
 
 export default function Editor({arrVarNames, template = "", callbackSave}) {
   const [msgTemplate, changeTemplate] = useState(template);
   const textareaRef = useRef(null);
+  useAutosizeTextArea(textareaRef.current, msgTemplate);
 
   function callbackPlaceVar(name) {
     const cursorPosition = textareaRef.current.selectionStart;
     const newTemplate = msgTemplate.slice(0, cursorPosition) + name + msgTemplate.slice(cursorPosition);
     changeTemplate(newTemplate);
-    console.log(newTemplate);
   }
 
   function handleChange(e) {
@@ -27,8 +30,10 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
         <textarea 
         value={msgTemplate}
         ref={textareaRef}
-        onChange={handleChange}>  
+        onChange={handleChange}
+        className={styles.textarea}>  
         </textarea>
+        <IfThenElse />
         <div>
           <button>
             Preview

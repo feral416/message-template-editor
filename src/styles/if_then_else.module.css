@@ -1,0 +1,14 @@
+.if_then_else_container {
+  display: grid;
+  grid-template-columns: 0.07fr 0.5fr;
+  gap: 0.5rem;
+  .row_name {
+    background-color: darkgreen;
+    padding: 0.1rem;
+    border-radius: 0.3rem;
+    color: white;
+  }
+  .delete_btn {
+    margin-inline-start: 2rem;
+  }
+}
