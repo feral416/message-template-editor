@@ -1,11 +1,14 @@
 import styles from '../styles/if_then_else.module.css';
 
-export default function IfThenElse() {
+//<button type="button" className={styles.delete_btn}>Delete</button>
+
+export default function IfThenElse({record, callbackSaveLastFocused, handleChange}) {
+  
+
   return (
     <div className={styles.if_then_else_container}>
-      <div><span className={styles.row_name}>IF</span><button type="button" className={styles.delete_btn}>Delete</button><input type="text"></input></div>
-      <div><span className={styles.row_name}>THEN</span><input type="text"></input></div>
-      <div><span className={styles.row_name}>ELSE</span><input type="text"></input></div>
+      <span>{record.term}</span>
+      <textarea id={record.id} onFocus={callbackSaveLastFocused} value={record.value} onChange={handleChange}></textarea>
     </div>
   );
 }

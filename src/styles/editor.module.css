@@ -1,6 +1,17 @@
-.textarea {
-  inline-size: 80%;
+textarea {
+  inline-size: 100%;
   block-size: auto;
   resize: none;
-  overflow: auto;
+  overflow: visible;
+}
+
+.input_row {
+  display: flex;
+  justify-content: right;
+  align-content: right;
+}
+
+p {
+  color: black;
+  background-color: white;
 }

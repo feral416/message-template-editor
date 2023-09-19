@@ -1,6 +1,6 @@
 .button_list {
   display: flex;
-  padding: 25px;
+  gap: 1rem;
 }
 
 .var_button {

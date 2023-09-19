@@ -7,7 +7,9 @@ const testTemplate = "Hey [First Name], we’re offering [Discount Amount] off [
 
 function App() {
   return (
-    <Editor arrVarNames={testVarNames} template={testTemplate}/>
+    <div className="editor_wrapper">
+      <Editor key="editor" arrVarNames={testVarNames} template={testTemplate}/>
+    </div>
   );
 }
 
