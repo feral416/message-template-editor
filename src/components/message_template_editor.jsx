@@ -1,7 +1,6 @@
 import styles from '../styles/editor.module.css';
 import React, {useState, useRef, useEffect} from 'react';
 import Variables from "./variable_buttons";
-import IfThenElse from './if_then_else';
 import InputRow from './input_row';
 import {nanoid} from 'nanoid';
 import useAutosizeTextArea from '../utils';
