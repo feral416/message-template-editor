@@ -54,8 +54,8 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
     const indexOfCurrent = elementDB.findIndex((element) => element.id === e.target.id);
     const copyDB = [...elementDB];
     copyDB[indexOfCurrent].value = e.target.value;
-    e.target.style.height = "0px";
-    e.target.style.height = e.target.style.scrollHeight + "px";
+//    e.target.style.height = "0px";
+//    e.target.style.height = e.target.style.scrollHeight + "px";
     updateElementDB(copyDB);
   }
 
