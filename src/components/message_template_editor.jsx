@@ -158,22 +158,19 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
   );
 }
 
-function findRecordById(DB, ID, term) {
+/*function findRecordById(DB, ID, term) {
   return DB.find((record) => record.id === `${ID}${term}`);
 }
+*/
 
 //This function collapses the n-th tree and form full template
 function combineRows(elemDB) {
   const DB = structuredClone(elemDB);
-  //if (DB?.value === undefined) return "no valid value!";
   let i = 0;
   while (i < DB.length && DB.length !== 1) {
-    console.log("i=", i);
     //Find first occurring leaf in a tree(has no child) and not a root
     const hasNoChild = DB.findIndex((record) => record.parentID.includes(DB[i].groupID)) === -1;
-    console.log(DB.findIndex((record) => record.parentID.includes(DB[i].groupID)));
     if (hasNoChild && DB[i].parentID !== "") {
-      console.log("found a leaf")
       //combining values according to a logic
       //don't have to check term cuz first appeared will be IF and i-1 is parent
       if(DB[i].value === "") {
@@ -183,7 +180,6 @@ function combineRows(elemDB) {
       }
       //removing ifthenelse block from a DB
       DB.splice(i, 4);
-      console.log(...DB);
       //resetting i to start a new search for a leaf
       i = 0;
     } else {
