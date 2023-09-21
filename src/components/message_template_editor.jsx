@@ -3,19 +3,13 @@ import React, {useState, useRef, useEffect} from 'react';
 import Variables from "./variable_buttons";
 import InputRow from './input_row';
 import {nanoid} from 'nanoid';
-import useAutosizeTextArea from '../utils';
 
 
 export default function Editor({arrVarNames, template = "", callbackSave}) {
   const [preview, setPreview] = useState(false);
   const [fullTemplate, setFullTemplate] = useState(template);
-  const [elementDB, updateElementDB] = useState([{id: nanoid(),groupID: "root", parentID: "", term: "", value: template}]);
-  const textareaRef = useRef(null);
+  const [elementDB, updateElementDB] = useState([{id: nanoid(), groupID: "root", parentID: "", term: "", value: template}]);
   const lastFocusedRef = useRef(null);
-
-  useEffect(() => {}, []);
-
-  useAutosizeTextArea(textareaRef.current, fullTemplate);
 
 
   //Handler to save reference to last focused textarea
@@ -29,7 +23,6 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
     const lastFocused = lastFocusedRef.current;
     if (lastFocused !== null && !preview) {
       const indexOfCurrent = elementDB.findIndex((element) => element.id === lastFocused.id);
-//      if (elementDB[indexOfCurrent].term === "") {
         const newID = nanoid();
         const cursorPosition = lastFocused.selectionStart;
         const copyDB = [...elementDB];
@@ -41,7 +34,6 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
         )
         copyDB[indexOfCurrent].value = lastFocused.value.slice(0, cursorPosition);
         updateElementDB(copyDB);
-//      }
 
     }
   }
@@ -50,7 +42,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
     if (!preview) {
       const lastFocused = lastFocusedRef.current;
       const cursorPosition = lastFocused.selectionStart;
-      const newValue = lastFocused.value.slice(0, cursorPosition) + name + lastFocused.value.slice(cursorPosition);
+      const newValue = lastFocused.value.slice(0, cursorPosition) + `{${name}}` + lastFocused.value.slice(cursorPosition);
       const indexOfCurrent = elementDB.findIndex((element) => element.id === lastFocused.id);
       const copyDB = [...elementDB];
       copyDB[indexOfCurrent].value = newValue;
@@ -124,7 +116,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
   };
 
   function updateFullTemplate() {
-    setFullTemplate(combineRows(elementDB));
+    setFullTemplate(combineRows(elementDB, arrVarNames));
     return fullTemplate;
   }
 
@@ -135,7 +127,6 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
     setPreview(!preview);
   }
 
-  //useEffect(() => {}, [elementDB]);
 
   return(
     <div className="editor">
@@ -164,7 +155,8 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
 */
 
 //This function collapses the n-th tree and form full template
-function combineRows(elemDB) {
+function combineRows(elemDB, arrVarNames) {
+  const fullTemplate = "";
   const DB = structuredClone(elemDB);
   let i = 0;
   while (i < DB.length && DB.length !== 1) {
@@ -185,6 +177,12 @@ function combineRows(elemDB) {
     } else {
       i++;
     }
+  }
+  for (const variable of arrVarNames){
+    console.log(variable)
+    //DB[0].value.replaceAll(`{${variable.name}}`, variable.value));
+    DB[0].value = DB[0].value.replaceAll(`{${variable.name}}`, variable.value);
+    console.log()
   }
   return DB[0].value;
 }

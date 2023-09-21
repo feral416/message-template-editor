@@ -6,14 +6,14 @@ export default function Variables({arrVarNames = [], callbackPlaceVar}) {
 
   return(
     <div className={styles.button_list}>
-      {arrVarNames.map((name) => {
+      {arrVarNames.map((variable) => {
         return (
           <button 
           key={nanoid()}
           className={styles.var_button}
           type="button"
-          onClick={() => callbackPlaceVar(name)}>
-          {`{${name}}`}
+          onClick={() => callbackPlaceVar(variable.name)}>
+          {`{${variable.name}}`}
           </button>)
       })}
     </div>
