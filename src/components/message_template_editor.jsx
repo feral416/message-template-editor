@@ -3,6 +3,7 @@ import React, {useState, useRef} from 'react';
 import Variables from "./variable_buttons";
 import InputRow from './input_row';
 import {nanoid} from 'nanoid';
+import { useForceRerender } from '../utils';
 
 
 export default function Editor({arrVarNames, template = "", callbackSave}) {
@@ -10,6 +11,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
   const [fullTemplate, setFullTemplate] = useState(template);
   const [elementDB, updateElementDB] = useState([{id: nanoid(), groupID: "root", parentID: "", term: "", value: template}]);
   const lastFocusedRef = useRef(null);
+  const  initForceRerender = useForceRerender(false);
 
 
   //Handler to save reference to last focused textarea
@@ -25,15 +27,14 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
       const indexOfCurrent = elementDB.findIndex((element) => element.id === lastFocused.id);
         const newID = nanoid();
         const cursorPosition = lastFocused.selectionStart;
-        const copyDB = [...elementDB];
-        copyDB.splice(indexOfCurrent+1, 0, 
+        elementDB.splice(indexOfCurrent+1, 0, 
           {id: newID, groupID: newID, parentID: lastFocused.id, term: "IF", value: ""},
           {id: `${newID}THEN`, groupID: newID, parentID: lastFocused.id, term: "THEN", value: ""},
           {id: `${newID}ELSE`, groupID: newID, parentID: lastFocused.id, term: "ELSE", value: ""},
           {id: `${newID}SPLIT`, groupID: newID, parentID: lastFocused.id, term: "", value: lastFocused.value.slice(cursorPosition)}
         )
-        copyDB[indexOfCurrent].value = lastFocused.value.slice(0, cursorPosition);
-        updateElementDB(copyDB);
+        elementDB[indexOfCurrent].value = lastFocused.value.slice(0, cursorPosition);
+        initForceRerender();
 
     }
   }
@@ -44,19 +45,15 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
       const cursorPosition = lastFocused.selectionStart;
       const newValue = lastFocused.value.slice(0, cursorPosition) + `{${name}}` + lastFocused.value.slice(cursorPosition);
       const indexOfCurrent = elementDB.findIndex((element) => element.id === lastFocused.id);
-      const copyDB = [...elementDB];
-      copyDB[indexOfCurrent].value = newValue;
-      updateElementDB(copyDB);
+      elementDB[indexOfCurrent].value = newValue;
+      initForceRerender();
     }
   }
 
   function handleChange(e) {
     const indexOfCurrent = elementDB.findIndex((element) => element.id === e.target.id);
-    const copyDB = [...elementDB];
-    copyDB[indexOfCurrent].value = e.target.value;
-//    e.target.style.height = "0px";
-//    e.target.style.height = e.target.style.scrollHeight + "px";
-    updateElementDB(copyDB);
+    elementDB[indexOfCurrent].value = e.target.value;
+    initForceRerender();
   }
 
 /*  function handleDelete(event) {
@@ -69,20 +66,19 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
   }
 */
   function handleDelete(event) {
-    const copyDB = [...elementDB];
-    const indexOfIf = () => copyDB.findIndex((element) => element.id === event.target.id);
+    const indexOfIf = () => elementDB.findIndex((element) => element.id === event.target.id);
     let i = indexOfIf();
-    const hasNoChild = () => copyDB.findIndex((record) => record.parentID.includes(copyDB[i].groupID)) === -1;
-    while (i < copyDB.length && indexOfIf() !== -1) {
+    const hasNoChild = () => elementDB.findIndex((record) => record.parentID.includes(elementDB[i].groupID)) === -1;
+    while (i < elementDB.length && indexOfIf() !== -1) {
       if (hasNoChild()) {
-        copyDB[i-1].value = copyDB[i-1].value.concat(copyDB[i+3].value);
-        copyDB.splice(i, 4);
+        elementDB[i-1].value = elementDB[i-1].value.concat(elementDB[i+3].value);
+        elementDB.splice(i, 4);
         i = indexOfIf();
       } else {
         i++;
       }
     }
-    updateElementDB(copyDB);
+    initForceRerender();
   }
 
   const content = () => {

@@ -2,7 +2,8 @@
   inline-size: 100%;
   resize: none;
   block-size: auto;
-  overflow: visible;
+  padding: 0.2rem;
+  overflow: hidden;
 }
 
 .input_row {
