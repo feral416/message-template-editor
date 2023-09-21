@@ -157,6 +157,13 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
 //This function collapses the n-th tree and form full template
 function combineRows(elemDB, arrVarNames) {
   const DB = structuredClone(elemDB);
+  //replacing varnames with their values
+  for (const record of DB) {
+    for (const variable of arrVarNames){
+      record.value = record.value.replaceAll(`{${variable.name}}`, variable.value);
+    }
+  }
+  
   let i = 0;
   while (i < DB.length && DB.length !== 1) {
     //Find first occurring leaf in a tree(has no child) and not a root
