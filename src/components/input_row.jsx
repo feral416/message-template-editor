@@ -4,7 +4,7 @@ import {useRef} from 'react';
 
 export default function InputRow({record, callbackSaveLastFocused, handleChange}) {
   const refToText = useRef(null);
-  useAutosizeTextArea(refToText.current, refToText.current?.value);
+  useAutosizeTextArea(refToText.current, record.value);
   return (
   <div className={styles.input_row}>
     <span>{record.term}</span>
