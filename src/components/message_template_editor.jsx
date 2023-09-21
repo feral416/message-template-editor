@@ -163,7 +163,7 @@ function combineRows(elemDB, arrVarNames) {
       record.value = record.value.replaceAll(`{${variable.name}}`, variable.value);
     }
   }
-  
+
   let i = 0;
   while (i < DB.length && DB.length !== 1) {
     //Find first occurring leaf in a tree(has no child) and not a root
@@ -183,9 +183,6 @@ function combineRows(elemDB, arrVarNames) {
     } else {
       i++;
     }
-  }
-  for (const variable of arrVarNames){
-    DB[0].value = DB[0].value.replaceAll(`{${variable.name}}`, variable.value);
   }
   return DB[0].value;
 }
