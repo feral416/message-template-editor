@@ -156,7 +156,6 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
 
 //This function collapses the n-th tree and form full template
 function combineRows(elemDB, arrVarNames) {
-  const fullTemplate = "";
   const DB = structuredClone(elemDB);
   let i = 0;
   while (i < DB.length && DB.length !== 1) {
@@ -179,10 +178,7 @@ function combineRows(elemDB, arrVarNames) {
     }
   }
   for (const variable of arrVarNames){
-    console.log(variable)
-    //DB[0].value.replaceAll(`{${variable.name}}`, variable.value));
     DB[0].value = DB[0].value.replaceAll(`{${variable.name}}`, variable.value);
-    console.log()
   }
   return DB[0].value;
 }
