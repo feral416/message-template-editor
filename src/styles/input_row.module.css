@@ -1,0 +1,12 @@
+.field {
+  inline-size: 100%;
+  resize: none;
+  block-size: auto;
+  overflow: visible;
+}
+
+.input_row {
+  display: flex;
+  justify-content: right;
+  align-content: right;
+}

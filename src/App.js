@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 import Editor from "./components/message_template_editor";
 
 const testVarNames = ["Bill", "Gates", "Microsoft"];
