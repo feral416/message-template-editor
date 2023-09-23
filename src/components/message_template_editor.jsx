@@ -137,7 +137,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
           <button type="button" onClick={() => callbackSave(updateFullTemplate())}>
             Save
           </button>
-          <button>
+          <button type="button">
             Close
           </button>
         </div>
