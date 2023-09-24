@@ -22,6 +22,21 @@ p {
   align-content: center;
 }
 
+.editor {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  padding: 1rem;
+  border: 2px solid white;
+  border-radius: 2rem;
+  color:antiquewhite;
+  max-inline-size: 600px;
+  min-inline-size: 600px;
+  font-size: 1rem;
+}
+
 /* .bottom_buttons > button {
   background-color: #3f51b5;
   color: white;

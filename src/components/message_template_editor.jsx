@@ -4,12 +4,13 @@ import Variables from "./variable_buttons";
 import InputRow from './input_row';
 import {nanoid} from 'nanoid';
 import { useForceRerender } from '../utils';
+import IfThenElse from './if_then_else';
 
 
 export default function Editor({arrVarNames, template = "", callbackSave}) {
   const [preview, setPreview] = useState(false);
   const [fullTemplate, setFullTemplate] = useState(template);
-  const [elementDB, updateElementDB] = useState([{id: nanoid(), groupID: "root", parentID: "", term: "", value: template}]);
+  const [elementDB, updateElementDB] = useState([{id: "root", groupID: "root", parentID: "", term: "", value: template}]);
   const lastFocusedRef = useRef(null);
   const  initForceRerender = useForceRerender(false);
 
@@ -86,23 +87,34 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
     if (!preview) {
       outputArr.push(
         <Variables arrVarNames={arrVarNames} key="variables" callbackPlaceVar={callbackPlaceVar}/>,
-        <button onClick={() => AddIfThenElse()}>Click to add: IF THEN ELSE</button>
-      );
-      elementDB.map((record) => {       
-      if (record.term === "IF") {
-        outputArr.push((
-          <button id={record.id} type='button' onClick={handleDelete}>Delete</button>
-        ))
-      }
-      outputArr.push(
+        <button onClick={() => AddIfThenElse()}>Click to add: IF THEN ELSE</button>,
         <InputRow
-        key={record.id}
-        record={record}
-        callbackSaveLastFocused={callbackSaveLastFocused}
-        handleChange={handleChange}
-      />
+          key={elementDB[0].id}
+          record={elementDB[0]}
+          callbackSaveLastFocused={callbackSaveLastFocused}
+          handleChange={handleChange}
+        />
       );
-    });
+      if (elementDB.length > 0) {
+        const ifThenElseContent = [];
+        for (let i = 1; i < elementDB.length; i++) {
+          ifThenElseContent.push(
+            <InputRow
+            key={elementDB[i].id}
+            record={elementDB[i]}
+            callbackSaveLastFocused={callbackSaveLastFocused}
+            handleChange={handleChange}
+            handleDelete={handleDelete}
+          />
+          );         
+        }
+        outputArr.push(
+          <IfThenElse>
+            {ifThenElseContent}
+          </IfThenElse>
+        );
+      }
+
     } else {
       outputArr.push(
           <h2>Message template preview</h2>,
@@ -127,7 +139,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
 
 
   return(
-    <div className="editor">
+    <div className={styles.editor}>
       <h1>Message Template Editor</h1>
         {content()}
         <div className={styles.bottom_buttons}>

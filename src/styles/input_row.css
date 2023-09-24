@@ -1,0 +1,6 @@
+.term {
+  inline-size: 3.2rem;
+  #root& {
+    inline-size: 0;
+  }
+}

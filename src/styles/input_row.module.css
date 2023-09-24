@@ -8,6 +8,13 @@
 
 .input_row {
   display: flex;
-  justify-content: right;
-  align-content: right;
+  justify-content: left;
+  align-content: top;
+}
+
+
+.deleteBtn {
+  margin-inline-start: -1.2rem;
+  margin-block-start: 0;
+  padding: 0.2rem;
 }
