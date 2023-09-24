@@ -1,5 +1,6 @@
 .term {
-  inline-size: 3.2rem;
+  inline-size: 3.4rem;
+  padding: 0.2rem;
   #root& {
     inline-size: 0;
   }

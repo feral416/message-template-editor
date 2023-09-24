@@ -7,8 +7,18 @@ const testTemplate = "Hey [First Name], we’re offering [Discount Amount] off [
 
 function App() {
   return (
-      <Editor key="editor" arrVarNames={testVarNames} template={testTemplate}/>
+      <Editor key="editor" arrVarNames={testVarNames} template={testTemplate} callbackSave={callbackSave}/>
   );
 }
 
 export default App;
+
+const callbackSave = async (fullTemplate) => {
+  try {
+    return 0;
+  }
+
+  catch (error) {
+    console.Error(error);
+  }
+}

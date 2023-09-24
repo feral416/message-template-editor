@@ -15,9 +15,11 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
   const  initForceRerender = useForceRerender(false);
 
 
+
+
   //Handler to save reference to last focused textarea
   function callbackSaveLastFocused(event) {
-    lastFocusedRef.current = event.target;
+      lastFocusedRef.current = event.target;
   }
 
 
@@ -98,14 +100,17 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
       if (elementDB.length > 0) {
         const ifThenElseContent = [];
         for (let i = 1; i < elementDB.length; i++) {
+          if (elementDB[i].term === "IF") {
+            ifThenElseContent.push(<button className={styles.deleteBtn} id={elementDB[i].id} type='button' onClick={handleDelete}>X</button>)
+          }
           ifThenElseContent.push(
             <InputRow
-            key={elementDB[i].id}
-            record={elementDB[i]}
-            callbackSaveLastFocused={callbackSaveLastFocused}
-            handleChange={handleChange}
-            handleDelete={handleDelete}
-          />
+              key={elementDB[i].id}
+              record={elementDB[i]}
+              callbackSaveLastFocused={callbackSaveLastFocused}
+              handleChange={handleChange}
+              handleDelete={handleDelete}
+            />
           );         
         }
         outputArr.push(
