@@ -164,11 +164,6 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
   );
 }
 
-/*function findRecordById(DB, ID, term) {
-  return DB.find((record) => record.id === `${ID}${term}`);
-}
-*/
-
 //This function collapses the n-th tree and form full template
 function combineRows(elemDB, arrVarNames) {
   const DB = structuredClone(elemDB);
@@ -201,6 +196,8 @@ function combineRows(elemDB, arrVarNames) {
   }
   return DB[0].value;
 }
+
+
 
 /*This function combines all row values depending on if conditions
 function combineRows(DB) {

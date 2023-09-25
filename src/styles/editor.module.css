@@ -32,8 +32,8 @@ p {
   border: 2px solid white;
   border-radius: 2rem;
   color:antiquewhite;
-  max-inline-size: 600px;
-  min-inline-size: 600px;
+  max-inline-size: 60%;
+  min-inline-size: 400px;
   font-size: 1rem;
 }
 
