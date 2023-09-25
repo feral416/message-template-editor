@@ -11,9 +11,18 @@ body {
 	justify-content: center;
 
 	min-height: 100vh;
+  min-inline-size: 600px;
 
 	overflow-x: hidden;
 	background: #333;
 
   font-size: 1rem;
+}
+
+@media screen and (width: 600px){
+  body {
+    max-inline-size: 100%;
+    min-inline-size: 400px;
+  }
+  
 }

@@ -43,7 +43,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
   }
 
   function callbackPlaceVar(name) {
-    if (!preview) {
+    if (!preview && lastFocusedRef.current !== null) {
       const lastFocused = lastFocusedRef.current;
       const cursorPosition = lastFocused.selectionStart;
       const newValue = lastFocused.value.slice(0, cursorPosition) + `{${name}}` + lastFocused.value.slice(cursorPosition);
