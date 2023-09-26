@@ -97,6 +97,72 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
           handleChange={handleChange}
         />
       );
+        
+        const DB = elementDB.map((record) => {
+           return {...record, jsxArr: []};
+        });
+
+        let i = 0;
+        while (i < DB.length && DB.length !== 1) {
+          const ifThenElseContent = [];
+          //Find first occurring leaf in a tree(has no child) and not a root
+          const hasNoChild = DB.findIndex((record) => record.parentID.includes(DB[i].groupID)) === -1;
+          if (hasNoChild && DB[i].parentID !== "") {
+            if (DB[i].term === "IF") {
+              ifThenElseContent.push(<button className={styles.deleteBtn} id={DB[i].id} type='button' onClick={handleDelete}>X</button>)
+            }
+            for ( let j = i; j < i + 4; j++ ) {
+              ifThenElseContent.push(
+                <InputRow
+                  key={DB[j].id}
+                  record={DB[j]}
+                  callbackSaveLastFocused={callbackSaveLastFocused}
+                  handleChange={handleChange}
+                  handleDelete={handleDelete}
+                />,
+                DB[j].jsxArr
+              );
+            }
+            DB[i-1].jsxArr.push(
+              <IfThenElse>
+                {ifThenElseContent}
+              </IfThenElse>
+            );     
+            //removing ifthenelse block from a DB
+            DB.splice(i, 4);
+            //resetting i to start a new search for a leaf
+            i = 0;
+          } else {
+            i++;
+          }
+      }
+      
+      outputArr.push(
+        DB[0].jsxArr
+      );
+    } else {
+      outputArr.push(
+          <h2>Message template preview</h2>,
+          <p className='input_row'>{fullTemplate}</p>
+      );
+    }
+
+    return outputArr;
+  };
+
+  /* const content = () => {
+    const outputArr = [];
+    if (!preview) {
+      outputArr.push(
+        <Variables arrVarNames={arrVarNames} key="variables" callbackPlaceVar={callbackPlaceVar}/>,
+        <button onClick={() => AddIfThenElse()}>Click to add: IF THEN ELSE</button>,
+        <InputRow
+          key={elementDB[0].id}
+          record={elementDB[0]}
+          callbackSaveLastFocused={callbackSaveLastFocused}
+          handleChange={handleChange}
+        />
+      );
       if (elementDB.length > 0) {
         const ifThenElseContent = [];
         for (let i = 1; i < elementDB.length; i++) {
@@ -128,7 +194,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
     }
 
     return outputArr;
-  };
+  }; */
 
   function updateFullTemplate() {
     setFullTemplate(combineRows(elementDB, arrVarNames));
