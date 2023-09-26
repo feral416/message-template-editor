@@ -1,7 +1,7 @@
 import "./App.css";
 import Editor from "./components/message_template_editor";
 
-const testVarNames = [{name: "firstname", value: "Bill"}, {name: "familyname", value: "Gates"}, {name: "company", value: "Microsoft"}];
+const testVarNames = [{name: "firstname", value: "Bill"}, {name: "familyname", value: "Gates"}, {name: "company", value: "Microsoft"}, {name: "position", value: "CEO"}, {name: "worker", value: "idiot"}];
 const testTemplate = "Hey [First Name], we’re offering [Discount Amount] off [Product/Service] at [Company Name]. Only until [Month] end. Come check us out at [Location] on [Address].";
 
 

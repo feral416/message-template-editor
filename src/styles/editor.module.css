@@ -34,7 +34,9 @@ p {
   border-radius: 2rem;
   color:antiquewhite;
   font-size: 1rem;
+  max-width: min(90vw, 1280px);
 }
+
 
 .deleteBtn {
 
