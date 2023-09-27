@@ -6,10 +6,13 @@ import {nanoid} from 'nanoid';
 import { useForceRerender } from '../utils';
 import IfThenElse from './if_then_else';
 
-
+/* This is message template editor app, that copies functions of actual app from linkedin
+*/
 export default function Editor({arrVarNames, template = "", callbackSave}) {
   const [preview, setPreview] = useState(false);
   const [fullTemplate, setFullTemplate] = useState(template);
+  //elemetDB is the main container that represents the n-th tree of nested input rows and corresponding index strictly corresponds to logical insertion
+  //position(as if all blocks inserted one-by-one from top to down) and thus rendering order 
   const [elementDB, updateElementDB] = useState([{id: "root", groupID: "root", parentID: "", term: "", value: template}]);
   const lastFocusedRef = useRef(null);
   const  initForceRerender = useForceRerender(false);
@@ -59,19 +62,23 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
     initForceRerender();
   }
 
-/*  function handleDelete(event) {
-    const copyDB = [...elementDB];
-    const indexOfIf = copyDB.findIndex((element) => element.id === event.target.id);
-    const indexOfParent = indexOfIf-1;
-    copyDB[indexOfParent].value = copyDB[indexOfParent].value.concat(copyDB[indexOfIf+3].value);
-    copyDB.splice(indexOfIf, 4);
-    updateElementDB(copyDB);
-  }
-*/
+  /*  function handleDelete(event) {
+      const copyDB = [...elementDB];
+      const indexOfIf = copyDB.findIndex((element) => element.id === event.target.id);
+      const indexOfParent = indexOfIf-1;
+      copyDB[indexOfParent].value = copyDB[indexOfParent].value.concat(copyDB[indexOfIf+3].value);
+      copyDB.splice(indexOfIf, 4);
+      updateElementDB(copyDB);
+    }
+  */
+  //this function deletes ifthenelse block and all child blocks combining all deleted text areas
   function handleDelete(event) {
     const indexOfIf = () => elementDB.findIndex((element) => element.id === event.target.id);
     let i = indexOfIf();
     const hasNoChild = () => elementDB.findIndex((record) => record.parentID.includes(elementDB[i].groupID)) === -1;
+    //since order strictly represents insertion order (as if all blocks inserted one-by-one from top to down)
+    //so we check if deletion target has a child if so we move index until we find a leaf and deleting corresponding ifthenelse block
+    //and start over again
     while (i < elementDB.length && indexOfIf() !== -1) {
       if (hasNoChild()) {
         elementDB[i-1].value = elementDB[i-1].value.concat(elementDB[i+3].value);
@@ -97,11 +104,14 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
           handleChange={handleChange}
         />
       );
-        
+        //adding jsxArr property that will store nested jsx blocks
         const DB = elementDB.map((record) => {
            return {...record, jsxArr: []};
         });
-
+        //The algorithm is kind of similar to combing rows:
+        //we search for a leaf, generating corresponding jsx, inserting nested jsx (if exist) and wrap it in the wrapper component,
+        //pushing it into jsxArr property of the parent element, then deleting ifthenelse block from the DB and starting over again
+        //resulting in nicely visually indented nested structure of ifthenelse blocks
         let i = 0;
         while (i < DB.length && DB.length !== 1) {
           const ifThenElseContent = [];
