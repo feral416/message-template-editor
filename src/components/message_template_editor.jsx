@@ -109,7 +109,7 @@ export default function Editor({arrVarNames, template = "", callbackSave}) {
           const hasNoChild = DB.findIndex((record) => record.parentID.includes(DB[i].groupID)) === -1;
           if (hasNoChild && DB[i].parentID !== "") {
             if (DB[i].term === "IF") {
-              ifThenElseContent.push(<button className={styles.deleteBtn} id={DB[i].id} type='button' onClick={handleDelete}>X</button>)
+              ifThenElseContent.push(<button className={styles.deleteBtn} id={DB[i].id} type='button' onClick={handleDelete}>Delete</button>)
             }
             for ( let j = i; j < i + 4; j++ ) {
               ifThenElseContent.push(
