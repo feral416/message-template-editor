@@ -10,5 +10,6 @@
   display: flex;
   justify-content: left;
   align-content: top;
+  margin: 0.2rem;
 }
 

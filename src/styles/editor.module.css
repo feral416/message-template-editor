@@ -14,7 +14,7 @@ textarea {
 p {
   color: black;
   background-color: white;
-
+  max-inline-size: 600px;
 }
 
 .bottom_buttons {

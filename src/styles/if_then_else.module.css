@@ -1,5 +1,7 @@
 .if_then_else_container {
   padding-inline-start: 1rem;
+  padding-inline-end: 0.2rem;
   padding-block: 1rem;
   display: grid;
+  border: 1px solid white;
 }
